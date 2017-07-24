@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href='style.css' rel='stylesheet'/>
+    <script src='jquery.min.js'></script>
+    <title>line generator</title>
+</head>
+
+<body>
+    <div class='dot'></div>
+    <svg width='1366' height='768' id='svg'></svg>
+    <script>
+      var height  = window.innerHeight;
+      var width = window.innerWidth;
+      document.getElementById('svg').setAttribute('height', height)
+      document.getElementById('svg').setAttribute('width', width)
+      var dot = document.getElementsByClassName('dot')[0]
+      var timer;
+      function start(){
+        timer = setInterval(function(){
+        var top =  parseInt(dot.style.top.substr(0,dot.style.top.length - 2))
+        var left = parseInt(dot.style.left.substr(0,dot.style.left.length - 2))
+        var nextTop = (Math.floor(Math.random() * (height-7)))
+        var nextLeft = (Math.floor(Math.random() * (width-7)))
+        console.log(top,left)
+        dot.style.top = nextTop + 'px'
+        dot.style.left = nextLeft + 'px'
+        setTimeout(function(){
+          var attrs = {y1:top + 3,y2:nextTop + 3,x1:left + 3,x2:nextLeft + 3}
+          var line = document.createElementNS('http://www.w3.org/2000/svg','line');
+          for (var attr in attrs)
+                line.setAttribute(attr, attrs[attr]);
+      
+          document.getElementById('svg').appendChild(line)
+        },800)
+      },1000)
+      }
+      function pause(){
+        clearInterval(timer)
+        timer = undefined
+      }
+      start()
+      window.addEventListener('keypress',function(key){
+        if(timer) pause()
+        else start()
+      })
+      alert('press any key to pause/restart')
+    </script>
+</body>
+
+</html>
